@@ -9,9 +9,11 @@ class PostSerializer(serializers.ModelSerializer):
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
     profile_image = serializers.ReadOnlyField(source='owner.profile.image.url')
     like_id = serializers.SerializerMethodField()
+    comments_count = serializers.ReadOnlyField()
+    likes_count = serializers.ReadOnlyField()
 
     def validate_image(self, value):
-        if value.size > 4096 * 4096 *2:
+        if value.size > 4096 * 4096 * 2:
             raise serializers.ValidationError('Image size larger than 2mb')
         if value.image.width > 4096:
             raise serializers.ValidationError('Image width to large')
